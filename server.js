@@ -1,7 +1,10 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 const bopa = require('body-parser');
 const app = express();
+
+mongoose.connect('mongodb://localhost:27017/Ticket-System');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -19,6 +22,20 @@ app.route('/tickets')
   .get(async (req, res) => {
       res.render('tickets');
   })
+
+// Create ticket request
+/*
+
+app.post('/create-ticket', async (req, res) => {
+  const { TicketId, TicketName } = req.body;
+
+  const sql = "INSERT INTO bookinger (Brukernavn, PlassID, Dato, Aktiv) values (?, ?, ?, ?)";
+  const result = await queryDb(sql, [ Brukernavn, PlassID, dato, true ]);
+  
+  res.json({ result });
+});
+
+*/
 
 
 // ---------------------------------------------- Siste server håndteringer ---------------------------------------------- //
