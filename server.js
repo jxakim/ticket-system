@@ -13,6 +13,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(bopa.json());
 
+// Start serveren med port 2000 (kan endres)
+const port = 2000;
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+}); 
+
+// ---------------------------------------------- App content ---------------------------------------------- //
+
 app.route('/')
   .get(async (req, res) => {
       res.render('dashboard');
@@ -38,11 +47,3 @@ app.post('/create-ticket', async (req, res) => {
 */
 
 
-// ---------------------------------------------- Siste server håndteringer ---------------------------------------------- //
-
-// Start serveren med port 2000 (kan endres)
-const port = 2000;
-
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-}); 
