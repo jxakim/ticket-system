@@ -4,7 +4,7 @@ let dbConnection
 
 module.exports = {
     connectToDb: (cb) => {
-        MongoClient.connect('mongodb://localhost:27017/Ticket-System')
+        MongoClient.connect('mongodb+srv://admin:admintest@cluster.jzzsv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster')
             .then((client) => {
                 dbConnection = client.db();
                 return cb();

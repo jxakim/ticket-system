@@ -14,7 +14,7 @@ app.use(bopa.json());
 
 // DB Connection
 
-const port = 2000; 
+const port = 2000;
 
 let database;
 
@@ -31,7 +31,7 @@ connectToDb((err) => {
   }
 })
 
-
+const User = require('./models/userModel');
 
 
 // ---------------------------------------------- App content ---------------------------------------------- //
@@ -47,8 +47,8 @@ app.route('/tickets')
   })
 
 app.get('/test', async (req, res) => {
-  let list = [] 
-  db.collection('tickets').find().forEach(element => list.push(element))
+  let list = []
+  db.collection('users').find().forEach(element => list.push(element))
     .then(() => {
       res.status(200).json(list);
     }).catch((err) => {
@@ -64,7 +64,7 @@ app.post('/create-ticket', async (req, res) => {
 
   const sql = "INSERT INTO bookinger (Brukernavn, PlassID, Dato, Aktiv) values (?, ?, ?, ?)";
   const result = await queryDb(sql, [ Brukernavn, PlassID, dato, true ]);
-  
+
   res.json({ result });
 });
 
