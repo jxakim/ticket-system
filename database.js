@@ -1,5 +1,17 @@
-const mongodb = require('mongodb');
+const { MongoClient } = require('mongodb');
 
+let dbConnection
 
-
-module.exports = connection;
+module.exports = {
+    connectToDb: (cb) => {
+        MongoClient.connect('mongodb://localhost:27017/Ticket-System')
+            .then((client) => {
+                dbConnection = client.db();
+                return cb();
+            }).catch(err => {
+                console.log(err);
+                return cb(err);
+            });
+    },
+    getDb: () => dbConnection
+};

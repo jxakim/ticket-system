@@ -1,10 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 const bopa = require('body-parser');
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/Ticket-System');
+const { connectToDb, getDb } = require('./database');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -13,12 +12,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(bopa.json());
 
-// Start serveren med port 2000 (kan endres)
-const port = 2000;
+// DB Connection
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-}); 
+const port = 2000; 
+
+let database;
+
+connectToDb((err) => {
+  if(!err) {
+
+    // Start serveren
+
+    app.listen(port, () => {
+      console.log(`Server running on http://localhost:${port}`);
+    });
+
+    db = getDb();
+  }
+})
+
+
+
 
 // ---------------------------------------------- App content ---------------------------------------------- //
 
@@ -31,6 +45,16 @@ app.route('/tickets')
   .get(async (req, res) => {
       res.render('tickets');
   })
+
+app.get('/test', async (req, res) => {
+  let list = [] 
+  db.collection('tickets').find().forEach(element => list.push(element))
+    .then(() => {
+      res.status(200).json(list);
+    }).catch((err) => {
+      res.status(500).json({error: 'Could not fetch the documents.'})
+    })
+})
 
 // Create ticket request
 /*
