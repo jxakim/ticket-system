@@ -3,7 +3,7 @@ const path = require('path');
 const bopa = require('body-parser');
 const app = express();
 
-const { connectToDb, getDb } = require('./database');
+const connectDB = require('./database');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -11,25 +11,25 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(bopa.json());
+app.use(express.json());
 
-// DB Connection
+// Config
+const port = 2000;
 
-const port = 2000; 
-
+// Database config
 let database;
 
-connectToDb((err) => {
-  if(!err) {
+// DB Models
+const Ticket = require('./public/models/Ticket.js');
 
-    // Start serveren
-
-    app.listen(port, () => {
-      console.log(`Server running on http://localhost:${port}`);
-    });
-
-    db = getDb();
-  }
-})
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}).catch((err) => {
+  console.error('Database connection failed:', err);
+  process.exit(1);
+});
 
 
 
@@ -43,31 +43,26 @@ app.route('/')
 
 app.route('/tickets')
   .get(async (req, res) => {
-      res.render('tickets');
+    const tickets = await Ticket.find();
+    res.render('tickets', { tickets });
   })
 
-app.get('/test', async (req, res) => {
-  let list = [] 
-  db.collection('tickets').find().forEach(element => list.push(element))
-    .then(() => {
-      res.status(200).json(list);
-    }).catch((err) => {
-      res.status(500).json({error: 'Could not fetch the documents.'})
-    })
-})
-
-// Create ticket request
-/*
 
 app.post('/create-ticket', async (req, res) => {
-  const { TicketId, TicketName } = req.body;
+  const { title, description, status } = req.body;
 
-  const sql = "INSERT INTO bookinger (Brukernavn, PlassID, Dato, Aktiv) values (?, ?, ?, ?)";
-  const result = await queryDb(sql, [ Brukernavn, PlassID, dato, true ]);
-  
-  res.json({ result });
+  try {
+    const newTicket = new Ticket({
+      title,
+      description,
+      status,
+      date
+    });
+
+    await newTicket.save();
+
+    res.redirect('/tickets');
+  } catch (err) {
+    res.status(500).json({ error: 'Could not add the ticket' });
+  }
 });
-
-*/
-
-

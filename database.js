@@ -1,17 +1,13 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
-let dbConnection
-
-module.exports = {
-    connectToDb: (cb) => {
-        MongoClient.connect('mongodb://localhost:27017/Ticket-System')
-            .then((client) => {
-                dbConnection = client.db();
-                return cb();
-            }).catch(err => {
-                console.log(err);
-                return cb(err);
-            });
-    },
-    getDb: () => dbConnection
+const connectDB = async () => {
+  try {
+    await mongoose.connect("mongodb+srv://joakim:admin@cluster.jzzsv.mongodb.net/ticket-system?retryWrites=true&w=majority&appName=Cluster");
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
 };
+
+module.exports = connectDB;

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/tickets.css">
 
+    <script src="js/tickets.js"></script>
+
     <title>Dashboard</title>
 </head>
 <body>
@@ -23,7 +25,7 @@
         <div class="content-head">
             <p id="title">Tickets (0)</p>
             <div class="button-group">
-                <button id="createTicket">Create ticket</button>
+                <button id="createTicket" onclick="openForm()">Create ticket</button>
             </div>
         </div>
 
@@ -47,19 +49,33 @@
         </div>
         
         <div class="ticket-container">
-            <div class="ticket">
-                <p class="ticket-info">ABC123</p>
-                <p class="ticket-info">Feil med pc!!</p>
-                <p class="ticket-info">Det skjer en feil med pcen</p>
-                <p class="ticket-info">30/08/2024</p>
-            </div>
+            <% tickets.forEach(ticket => { %>
+              <div class="ticket">
+                <p class="ticket-info"><%= ticket._id %></p>
+                <p class="ticket-info"><%= ticket.title %></p>
+                <p class="ticket-info"><%= ticket.description %></p>
+                <p class="ticket-info"><%= new Date(ticket.createdAt).toLocaleDateString() %></p>
+              </div>
+            <% }) %>
+          </div>
+          
 
-            <div class="ticket">
-                <p class="ticket-info">ABC123</p>
-                <p class="ticket-info">Feil med pc</p>
-                <p class="ticket-info">Det skjer en feil med pcen</p>
-                <p class="ticket-info">30/08/2024</p>
-            </div>
+        <div class="form-popup" id="myForm">
+            <form method="post" action="/create-ticket" class="form-container">
+              <h1>Create a Ticket</h1>
+          
+              <label for="title"><b>Title</b></label>
+              <input type="text" placeholder="Enter a ticket title" name="title" required>
+
+              <label for="description"><b>Description</b></label>
+              <input type="text" placeholder="Enter a description" name="description" required>
+
+              <label for="status"><b>Status</b></label>
+              <input type="text" placeholder="Enter a status" name="status" required>
+          
+              <button type="submit" class="btn">Create</button>
+              <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
         </div>
     </div>
 </body>
