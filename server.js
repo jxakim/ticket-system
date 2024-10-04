@@ -14,10 +14,12 @@ app.use(bopa.json());
 app.use(express.json());
 
 // Config
+
+// DB Connection
+
 const port = 2000;
 
 // Database config
-let database;
 
 // DB Models
 const Ticket = require('./public/models/Ticket.js');
@@ -31,7 +33,7 @@ connectDB().then(() => {
   process.exit(1);
 });
 
-
+const User = require('./models/userModel');
 
 
 // ---------------------------------------------- App content ---------------------------------------------- //
@@ -47,6 +49,17 @@ app.route('/tickets')
     res.render('tickets', { tickets });
   })
 
+app.get('/test', async (req, res) => {
+  let list = []
+  db.collection('users').find().forEach(element => list.push(element))
+    .then(() => {
+      res.status(200).json(list);
+    }).catch((err) => {
+      res.status(500).json({error: 'Could not fetch the documents.'})
+    })
+})
+
+// Create ticket request
 
 app.post('/create-ticket', async (req, res) => {
   const { title, description, status } = req.body;
@@ -65,4 +78,8 @@ app.post('/create-ticket', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Could not add the ticket' });
   }
+  const sql = "INSERT INTO bookinger (Brukernavn, PlassID, Dato, Aktiv) values (?, ?, ?, ?)";
+  const result = await queryDb(sql, [ Brukernavn, PlassID, dato, true ]);
+
+  res.json({ result });
 });

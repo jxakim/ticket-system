@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const connectDB = async () => {
+module.exports = async () => {
   try {
     await mongoose.connect("mongodb+srv://joakim:admin@cluster.jzzsv.mongodb.net/ticket-system?retryWrites=true&w=majority&appName=Cluster");
     console.log('MongoDB connected');
@@ -9,5 +9,3 @@ const connectDB = async () => {
     throw err;
   }
 };
-
-module.exports = connectDB;
