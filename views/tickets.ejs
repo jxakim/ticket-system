@@ -23,15 +23,13 @@
 
     <div class="container">
         <div class="content-head">
-            <p id="title">Tickets (0)</p>
+            <p id="title">Open Tickets (<%= tickets.length %>)</p>
             <div class="button-group">
                 <button id="createTicket" onclick="openForm()">Create ticket</button>
             </div>
         </div>
 
-        <div class="search">
-            <input type="text" id="search" placeholder="Search for a ticket">
-        </div>
+        <input type="text" class="search" id="search" placeholder="Search for a ticket">
 
         <div class="filters">
             <div class="filter">
@@ -54,7 +52,7 @@
                 <p class="ticket-info"><%= ticket._id %></p>
                 <p class="ticket-info"><%= ticket.title %></p>
                 <p class="ticket-info"><%= ticket.description %></p>
-                <p class="ticket-info"><%= new Date(ticket.createdAt).toLocaleDateString() %></p>
+                <p class="ticket-info"><%= (ticket.date).toLocaleDateString("nb-NO") %></p>
               </div>
             <% }) %>
           </div>
