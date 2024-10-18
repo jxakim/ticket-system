@@ -31,6 +31,27 @@ connectDB().then(() => {
 });
 
 const Ticket = require('./models/Ticket');
+let tickets = [];
+let filter = SortTickets(tickets, "");
+
+function SortTickets(array, str) {
+  let sortedList = [];
+  array.forEach(ticket => {
+    if (ticket.title.toLowerCase().includes(str.toLowerCase())) {
+      console.log(ticket.title);
+      sortedList.push(ticket);
+    }
+  });
+  return sortedList;
+}
+
+
+async function resetTicketFilter() {
+  tickets = await Ticket.find(); // Load all tickets from the database
+  filter = SortTickets(tickets, ""); // Initially show all tickets
+}
+
+resetTicketFilter();
 
 
 // ---------------------------------------------- App content ---------------------------------------------- //
@@ -42,11 +63,10 @@ app.route('/')
 
 app.route('/tickets')
   .get(async (req, res) => {
-    const tickets = await Ticket.find();
-    res.render('tickets', { tickets });
+    res.render('tickets', { filter });
   });
 
-// Create ticket request
+// Create ticket request 
 
 app.post('/create-ticket', async (req, res) => {
   const { title, description, status } = req.body;
@@ -62,6 +82,9 @@ app.post('/create-ticket', async (req, res) => {
 
     await newTicket.save();
 
+    tickets.push(newTicket); 
+    filter = SortTickets(tickets, "");
+
     res.redirect('/tickets');
   } catch (err) {
     console.log(err);
@@ -69,6 +92,29 @@ app.post('/create-ticket', async (req, res) => {
   }
 });
 
+
+
 app.get('/search', (req, res) => {
-  
+  const searchQuery = req.query.query;
+
+  // Filter the tickets based on the search query
+  const filteredTickets = SortTickets(tickets, searchQuery);
+
+  // Return the filtered tickets as JSON
+  res.json({ results: filteredTickets });
+});
+
+
+app.get('/tickets/all', async (req, res) => {
+  try {
+
+    // Fetch all tickets from the database
+    const allTickets = await Ticket.find();
+
+    res.json({ results: allTickets });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not fetch tickets' });
+  }
 });

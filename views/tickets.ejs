@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/tickets.css">
 
-    <script src="js/tickets.js"></script>
-
     <title>Dashboard</title>
 </head>
 <body>
@@ -23,13 +21,14 @@
 
     <div class="container">
         <div class="content-head">
-            <p id="title">Open Tickets (<%= tickets.length %>)</p>
+            <p id="tickets-title"></p>
             <div class="button-group">
                 <button id="createTicket" onclick="openForm()">Create ticket</button>
             </div>
         </div>
 
         <input type="text" class="search" id="search" placeholder="Search for a ticket">
+        <p>te</p>
 
         <div class="filters">
             <div class="filter">
@@ -46,16 +45,9 @@
             </div>
         </div>
         
-        <div class="ticket-container">
-            <% tickets.forEach(ticket => { %>
-              <div class="ticket">
-                <p class="ticket-info"><%= ticket._id %></p>
-                <p class="ticket-info"><%= ticket.title %></p>
-                <p class="ticket-info"><%= ticket.description %></p>
-                <p class="ticket-info"><%= (ticket.date).toLocaleDateString("nb-NO") %></p>
-              </div>
-            <% }) %>
-          </div>
+        <div class="ticket-container" id="ticket-list">
+            <p>Nothing to see here</p>
+        </div>
           
 
         <div class="form-popup" id="myForm">
@@ -76,5 +68,8 @@
             </form>
         </div>
     </div>
+
+    <script src="js/form-handlers.js"></script>
+    <script src="js/search.js"></script>
 </body>
 </html>
