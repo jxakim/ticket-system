@@ -9,7 +9,7 @@
   background-color: #fff;
 }
 
-#navbar-right a::after {
+#navbar-right, #navbar-left a::after {
     content: '';
     position: absolute;
     height: .5px;
@@ -21,7 +21,7 @@
     transform: translateX(-50%);
 }
 
-#navbar-right a:hover::after {
+#navbar-right, #navbar-left a:hover::after {
     width: 55%;
     left: 50%;
     transform: translateX(-50%);
@@ -55,6 +55,10 @@
 }
  
 #navbar-right {
+  float: right;
+}
+
+#navbar-left {
   float: center;
 }
  

@@ -32,8 +32,17 @@ function displayTickets(tickets) {
   ticketList.innerHTML = '';
   ticketCount.innerHTML = `Tickets (${tickets.length})`;
 
-  // Render each ticket in the results
-  tickets.forEach(ticket => {
+  if (tickets.length == 0) {
+    const text = document.createElement('p');
+    text.innerHTML = "No tickets available..";
+    text.style.textAlign = "center";
+    text.style.color = "#000000";
+    text.style.fontWeight = "normal";
+    text.style.paddingTop = "100px";
+    ticketList.appendChild(text);
+  } else {
+// Render each ticket in the results
+    tickets.forEach(ticket => {
     const ticketElement = document.createElement('div');
     ticketElement.classList.add('ticket');
     ticketElement.innerHTML = `
@@ -43,5 +52,6 @@ function displayTickets(tickets) {
       <p>${new Date(ticket.date).toLocaleDateString()}</p>
     `;
     ticketList.appendChild(ticketElement);
-  });
+    });
+  }
 }
