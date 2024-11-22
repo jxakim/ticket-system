@@ -15,11 +15,9 @@ app.use(express.json());
 
 // Config
 
-// DB Connection
+// ---------------------------------------------- Database connection ---------------------------------------------- //
 
 const port = 2000;
-
-// Database config
 
 connectDB().then(() => {
   app.listen(port, () => {
@@ -30,31 +28,45 @@ connectDB().then(() => {
   process.exit(1);
 });
 
+// ---------------------------------------------- Functions & Configuration ---------------------------------------------- //
+
 const Ticket = require('./models/Ticket');
 let tickets = [];
 let filter = SortTickets(tickets, "");
 
 function SortTickets(array, str) {
+
   let sortedList = [];
+
   array.forEach(ticket => {
     if (ticket.title.toLowerCase().includes(str.toLowerCase())) {
       console.log(ticket.title);
       sortedList.push(ticket);
     }
   });
+  
   return sortedList;
 }
 
-
 async function resetTicketFilter() {
-  tickets = await Ticket.find(); // Load all tickets from the database
-  filter = SortTickets(tickets, ""); // Initially show all tickets
+
+  tickets = await Ticket.find();
+  filter = SortTickets(tickets, "");
+
 }
 
 resetTicketFilter();
 
 
 // ---------------------------------------------- App content ---------------------------------------------- //
+
+
+// ------------------------------ //
+
+/*             Routing            */
+
+// ------------------------------ //
+
 
 app.route('/')
   .get(async (req, res) => {
@@ -66,7 +78,21 @@ app.route('/tickets')
     res.render('tickets', { filter });
   });
 
-// Create ticket request 
+app.route('/login')
+  .get(async (req, res) => {
+    res.render('login');
+  });
+
+
+
+// ------------------------------ //
+
+/*        Ticket handlers         */
+
+// ------------------------------ //
+
+
+// Post request to create ticket
 
 app.post('/create-ticket', async (req, res) => {
   const { title, description, status } = req.body;
@@ -93,22 +119,22 @@ app.post('/create-ticket', async (req, res) => {
 });
 
 
+// Search handler (server)
 
 app.get('/search', (req, res) => {
   const searchQuery = req.query.query;
 
-  // Filter the tickets based on the search query
   const filteredTickets = SortTickets(tickets, searchQuery);
-
-  // Return the filtered tickets as JSON
+  
   res.json({ results: filteredTickets });
 });
 
 
+// Get all tickets from the database
+
 app.get('/tickets/all', async (req, res) => {
   try {
 
-    // Fetch all tickets from the database
     const allTickets = await Ticket.find();
 
     res.json({ results: allTickets });
@@ -118,3 +144,5 @@ app.get('/tickets/all', async (req, res) => {
     res.status(500).json({ error: 'Could not fetch tickets' });
   }
 });
+
+

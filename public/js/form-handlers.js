@@ -1,7 +1,7 @@
 function openForm() {
-    document.getElementById("myForm").style.right = "0px";
+    document.getElementById("sidebar").style.right = "0px";
 }
 
 function closeForm() {
-    document.getElementById("myForm").style.right = "-1000px";
+    document.getElementById("sidebar").style.right = "-1000px";
 }
