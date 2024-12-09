@@ -1,7 +1,7 @@
 const SearchElement = document.getElementById('search');
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('/tickets/all')
+  fetch('/tickets/get-tickets')
     .then(response => response.json())
     .then(data => {
       console.log('All tickets:', data.results);
@@ -14,7 +14,7 @@ SearchElement.addEventListener('input', () => {
 
   const searchQuery = SearchElement.value;
 
-  fetch(`/search?query=${encodeURIComponent(searchQuery)}`)
+  fetch(`/tickets/search?query=${encodeURIComponent(searchQuery)}`)
     .then(response => response.json())
     .then(data => {
       
