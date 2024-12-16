@@ -7,7 +7,9 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(bopa.json());
+app.use(cookieParser());
 app.use(express.json());
+
 
 // Config
 
@@ -40,8 +42,6 @@ connectDB().then(() => {
 
 
 
-
-
 // ---------------------------------------------- App content ---------------------------------------------- //
 
 
@@ -55,13 +55,23 @@ connectDB().then(() => {
 app.use('/tickets', tickets_route);
 app.use('/users', users_route);
 
-app.route('/')
-    .get(async (req, res) => {
-          res.render('dashboard');
-    })
+app.route('/').get(async (req, res) => {
+  let isLoggedIn = req.cookies.user ? true : false;
 
-app.route('/login')
-  .get(async (req, res) => {
-    res.render('login');
-  });
+  res.render('dashboard', { isLoggedIn });
+})
+
+app.route('/login').get(async (req, res) => {
+  let isLoggedIn = req.cookies.user ? true : false;
+
+  if (isLoggedIn) {
+
+    res.render('dashboard', { isLoggedIn });
+
+  } else {
+
+    res.render('login', {isLoggedIn});
+
+  }
+});
 

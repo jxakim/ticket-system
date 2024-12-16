@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const router = express.Router();
 const Ticket = require('../models/Ticket');
 
@@ -25,7 +26,13 @@ resetTicketFilter();
 
 // Routes for tickets
 router.get('/', async (req, res) => {
-  res.render('tickets', { filter });
+  let isLoggedIn = req.cookies.user;
+
+  if (!isLoggedIn) {
+    res.redirect('/login');
+  } else {
+    res.render('tickets', { filter, isLoggedIn });
+  }
 });
 
 
@@ -56,6 +63,7 @@ router.post('/create-ticket', async (req, res) => {
       filter = SortTickets(tickets, "");
   
       res.redirect('/tickets');
+
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: 'Could not add the ticket' });
@@ -78,7 +86,6 @@ router.get('/search', (req, res) => {
 
 router.get('/get-tickets', async (req, res) => {
     try {
-  
       const allTickets = await Ticket.find();
   
       res.json({ results: allTickets });

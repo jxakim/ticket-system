@@ -70,14 +70,22 @@ router.post('/login', async (req, res) => {
 
 });
 
+router.post('/logout', async (req, res) => {
+  let isLoggedIn = req.cookies.user;
+  if (isLoggedIn) {
+    LogoutUser(req, res);
+  }
+});
+
 router.post('/create-user', async (req, res) => {
-    const { username, hashed_password, temp_password } = req.body;
+    const { username, hashed_password, temp_password, group } = req.body;
   
     try {
       const newUser = new User({
         username,
         hashed_password,
-        temp_password
+        temp_password,
+        group
       });
   
       await newUser.save();

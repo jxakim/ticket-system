@@ -61,3 +61,41 @@
 #navbar #logo:hover {
   color: #3d3d3d
 }
+
+
+#navbar button {
+  background: none;
+  color: #000000;
+  text-align: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: lighter;
+  line-height: 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+#navbar button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  max-width: 50px;
+  background-color: #000000;
+  transition: width 0.3s ease-out, left 0.3s ease-out;
+  transform: translateX(-50%);
+}
+
+#navbar button:hover::after {
+  width: 100%;
+}
+
+#navbar button:focus {
+  outline: none;
+}

@@ -11,27 +11,8 @@
     <title>Login</title>
 </head>
 <body>
-    <div id="navbar">
-        <a href="/" id="logo">Ticket-System</a>
-        <div id="navbar-left">
-            <a href="/">Dashboard</a>
-            <a href="/tickets">Tickets</a>
-        </div>
+    <%- include('partials/navbar') %>
 
-        <div id="navbar-right">
-            <a href="/login" class="active">Login</a>
-        </div>
-    </div>
-
-    <div id="login">
-        <form method="post" action="/users/login" class="form-container">
-
-            <h1>Login</h1>
-            <input type="text" placeholder="Enter your username" name="username" required>
-            <input type="password" placeholder="Enter your password" name="password" required>
-        
-            <button type="submit" class="btn">Login</button>
-        </form>
-    </div>
+    <%- include('partials/login') %>
 </body>
 </html>
