@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 const User = require('../models/User');
+require('dotenv').config();
 
 let users = [];
 
@@ -13,7 +14,7 @@ let users = [];
 // ------------------------------ //
 
 async function LoginUser(res, username) {
-    const cookie_time_minutes = 5;
+    const cookie_time_minutes = process.env.PORT;
     res.cookie('loggedin', true, { maxAge: cookie_time_minutes * 60 * 1000, httpOnly: true });
     res.cookie('user', username, { maxAge: cookie_time_minutes * 60 * 1000, httpOnly: true });
 
@@ -98,5 +99,9 @@ router.post('/create-user', async (req, res) => {
       res.status(500).json({ error: 'Could not add the ticket' });
     }
 });
+
+router.post('/setpsw', async (req, res) => {
+  
+})
   
 module.exports = router;

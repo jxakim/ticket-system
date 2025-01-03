@@ -13,6 +13,9 @@ app.use(express.json());
 
 // Config
 
+require('dotenv').config();
+
+
 // Importing modules
 
 const users_route = require('./backend/users');
@@ -27,7 +30,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // ---------------------------------------------- Database connection ---------------------------------------------- //
 
-const port = 2000;
+const port = process.env.PORT || 2000;
 
 connectDB().then(() => {
   app.listen(port, () => {
@@ -74,4 +77,3 @@ app.route('/login').get(async (req, res) => {
 
   }
 });
-

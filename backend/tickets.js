@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const router = express.Router();
 const Ticket = require('../models/Ticket');
 
+require('dotenv').config();
+
 let tickets = [];
 let filter = [];
 
@@ -24,16 +26,27 @@ async function resetTicketFilter() {
 
 resetTicketFilter();
 
+function isAuthenticated(req, res, next) {
+  if (!req.cookies.user) {
+    const redirectTo = encodeURIComponent(req.originalUrl || '/');
+    return res.redirect(`/login?redirect=${redirectTo}`);
+  }
+  next();
+}
+
+
 // Routes for tickets
 router.get('/', async (req, res) => {
   let isLoggedIn = req.cookies.user;
 
   if (!isLoggedIn) {
-    res.redirect('/login');
-  } else {
-    res.render('tickets', { filter, isLoggedIn });
+    return res.redirect(`/login`);
   }
+
+  const tickets = await Ticket.find();
+  res.render('tickets', { filter: tickets, isLoggedIn: true });
 });
+
 
 
 // ------------------------------ //
@@ -42,49 +55,70 @@ router.get('/', async (req, res) => {
 
 // ------------------------------ //
 
+// Get request to open ticket editor
+router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const ticket = await Ticket.findById(id);
+
+    if (!ticket) {
+      return res.status(404).json({ error: 'Ticket not found' });
+    }
+
+    res.render('ticket_editor', { ticket, isLoggedIn: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not fetch ticket' });
+  }
+});
+
+
 
 // Post request to create ticket
 
-router.post('/create-ticket', async (req, res) => {
-    const { title, description, status } = req.body;
-    const date = new Date();
-  
-    try {
-      const newTicket = new Ticket({
-        title,
-        description,
-        status,
-        date
-      });
-  
-      await newTicket.save();
-  
-      tickets.push(newTicket); 
-      filter = SortTickets(tickets, "");
-  
-      res.redirect('/tickets');
+router.post('/create-ticket', isAuthenticated, async (req, res) => {
+  const { title, description, status } = req.body;
 
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: 'Could not add the ticket' });
-    }
-  });
-  
+  try {
+    const newTicket = new Ticket({
+      title,
+      description,
+      status,
+      date: new Date(),
+    });
+
+    await newTicket.save();
+    res.redirect('/tickets');
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not add the ticket' });
+  }
+});
+
   
 // Search handler (server)
   
-router.get('/search', (req, res) => {
-    const searchQuery = req.query.query;
+router.get('/search', isAuthenticated,  async (req, res) => {
+  const searchQuery = req.query.query || '';
 
-    const filteredTickets = SortTickets(tickets, searchQuery);
+  try {
+    const filteredTickets = await Ticket.find({
+      title: { $regex: searchQuery, $options: 'i' },
+    });
 
     res.json({ results: filteredTickets });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not fetch search results' });
+  }
 });
-  
   
 // Get all tickets from the database
 
-router.get('/get-tickets', async (req, res) => {
+router.get('/get-tickets', isAuthenticated, async (req, res) => {
+
     try {
       const allTickets = await Ticket.find();
   

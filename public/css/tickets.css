@@ -162,7 +162,9 @@
     max-width: 600px;
     padding: 30px;
     background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
   
 
 .form-container input {

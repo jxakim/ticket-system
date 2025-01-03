@@ -39,6 +39,7 @@ function displayTickets(tickets) {
     text.style.color = "#000000";
     text.style.fontWeight = "normal";
     text.style.paddingTop = "100px";
+
     ticketList.appendChild(text);
 
   } else {
@@ -54,6 +55,11 @@ function displayTickets(tickets) {
         <p>${ticket.description}</p>
         <p>${new Date(ticket.date).toLocaleDateString()}</p>
       `;
+
+      ticketElement.addEventListener('click', () => {
+        window.location.href = `/tickets/open-ticket/${ticket._id}`;
+      });
+
       ticketList.appendChild(ticketElement);
 
     });

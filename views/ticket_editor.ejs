@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+
+    <link rel="stylesheet" href="/css/tickets.css">
+    <link rel="stylesheet" href="/css/ticket-editor.css">
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+        <p class="route"><a href="/">Home</a> / <a href="/tickets">Tickets</a> / <a href="/tickets/open-ticket/<%- ticket.id %>"><%- ticket.title %></a></p>
+        <div class="content-head">
+            <h1 id="tickets-title">Configuring: <%- ticket.title %></h1>
+        </div>
+
+        <form method="post" action="" class="form-container-2">
+            <label for="title" class="label">Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter the ticket title">
+        
+            <label for="description" class="label">Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Enter the ticket description"></textarea>
+        
+            <button type="submit">Save Changes</button>
+        </form>
+        
+    </div>
+</body>
+</html>
