@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
 
-    <link rel="stylesheet" href="/css/tickets.css">
-    <link rel="stylesheet" href="/css/ticket-editor.css">
+    <link rel="stylesheet" href="/css/ticket_editor.css">
     <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
@@ -18,14 +17,33 @@
             <h1 id="tickets-title">Configuring: <%- ticket.title %></h1>
         </div>
 
-        <form method="post" action="" class="form-container-2">
-            <label for="title" class="label">Title</label>
-            <input type="text" id="title" name="title" placeholder="Enter the ticket title">
-        
-            <label for="description" class="label">Description</label>
-            <textarea id="description" name="description" rows="4" placeholder="Enter the ticket description"></textarea>
-        
-            <button type="submit">Save Changes</button>
+        <p>Last edited by </p>
+
+        <form method="post" action="" class="form-container">
+            <div class="divider">
+                <label for="title" class="label">Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter the ticket title" value="<%- ticket.title %>">
+            </div>
+
+            <div class="divider">
+                <label for="description" class="label">Description</label>
+                <textarea id="description" name="description" rows="2" placeholder="Enter the ticket description"><%- ticket.description %></textarea>
+            </div>
+
+            <div class="divider">
+                <label for="description" class="label">Status</label>
+                <textarea id="description" name="description" rows="2" placeholder="Enter the ticket description"></textarea>
+            </div>
+
+            <div class="divider">
+                <label for="active" class="label">Active</label>
+                <input type="checkbox" checked id="active" name="active"></input>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" id="save">Save Changes</button>
+                <button id="cancel">Cancel</button>
+            </div>
         </form>
         
     </div>
