@@ -24,6 +24,22 @@ SearchElement.addEventListener('input', () => {
     
 });
 
+function createTicketElement(ticket) {
+  const ticketElement = document.createElement('div');
+  ticketElement.classList.add('ticket');
+  ticketElement.innerHTML = `
+      <p>${ticket._id}</p>
+      <p>${ticket.status}</p>
+      <p>${ticket.title}</p>
+      <p>${ticket.description}</p>
+      <p>${new Date(ticket.date).toLocaleDateString()}</p>
+  `;
+  ticketElement.addEventListener('click', () => {
+      window.location.href = `/tickets/open-ticket/${ticket._id}`;
+  });
+  return ticketElement;
+}
+
 function displayTickets(tickets) {
   const ticketList = document.getElementById('ticket-list');
   const ticketCount = document.getElementById('tickets-title');
@@ -31,37 +47,11 @@ function displayTickets(tickets) {
   ticketList.innerHTML = '';
   ticketCount.innerHTML = `Tickets (${tickets.length})`;
 
-  if (tickets.length == 0) {
-
-    const text = document.createElement('p');
-    text.innerHTML = "No tickets available..";
-    text.style.textAlign = "center";
-    text.style.color = "#000000";
-    text.style.fontWeight = "normal";
-    text.style.paddingTop = "100px";
-
-    ticketList.appendChild(text);
-
+  if (tickets.length === 0) {
+      ticketList.innerHTML = `<p class="no-tickets">No tickets available...</p>`;
   } else {
-
-    tickets.forEach(ticket => {
-
-      const ticketElement = document.createElement('div');
-      ticketElement.classList.add('ticket');
-      ticketElement.innerHTML =
-      `
-        <p>${ticket._id}</p>
-        <p>${ticket.title}</p>
-        <p>${ticket.description}</p>
-        <p>${new Date(ticket.date).toLocaleDateString()}</p>
-      `;
-
-      ticketElement.addEventListener('click', () => {
-        window.location.href = `/tickets/open-ticket/${ticket._id}`;
+      tickets.forEach(ticket => {
+          ticketList.appendChild(createTicketElement(ticket));
       });
-
-      ticketList.appendChild(ticketElement);
-
-    });
   }
 }
