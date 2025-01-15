@@ -75,6 +75,45 @@ router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
 });
 
 
+// Delete a ticket
+router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      const result = await Ticket.findByIdAndDelete(id);
+
+      if (!result) {
+          return res.status(404).json({ error: 'Ticket not found' });
+      }
+
+      res.status(200).json({ message: 'Ticket deleted successfully!' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Could not delete the ticket' });
+  }
+});
+
+// Update ticket status
+router.patch('/update-status/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+      const ticket = await Ticket.findByIdAndUpdate(id, { status }, { new: true });
+
+      if (!ticket) {
+          return res.status(404).json({ error: 'Ticket not found' });
+      }
+
+      res.status(200).json({ message: 'Ticket status updated successfully!', ticket });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Could not update ticket status' });
+  }
+});
+
+
+
 
 // Post request to create ticket
 

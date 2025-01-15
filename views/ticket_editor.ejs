@@ -19,7 +19,7 @@
 
         <p>Last edited by </p>
 
-        <form method="post" action="" class="form-container">
+        <form method="post" action="/update-status/<%- ticket.id %>" class="form-container">
             <div class="divider">
                 <label for="title" class="label">Title</label>
                 <input type="text" id="title" name="title" placeholder="Enter the ticket title" value="<%- ticket.title %>">
@@ -32,7 +32,16 @@
 
             <div class="divider">
                 <label for="description" class="label">Status</label>
-                <textarea id="description" name="description" rows="2" placeholder="Enter the ticket description"></textarea>
+                <div class="dropdown">
+                    <button type="button" class="dropdown-button" id="status-button" data-current-status="<%- ticket.status %>">
+                        <%- ticket.status !== "Open" || "Pending" || "Closed" ? "Select status" : ticket.status %>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" style="color: rgb(68, 196, 68)" data-value="Open">Open</li>
+                        <li class="dropdown-item" style="color: rgb(204, 152, 74)" data-value="Pending">Pending</li>
+                        <li class="dropdown-item" style="color: rgb(190, 66, 66)" data-value="Closed">Closed</li>
+                    </ul>
+                </div>
             </div>
 
             <div class="divider">
@@ -42,7 +51,8 @@
             
             <div class="btn-group">
                 <button type="submit" id="save">Save Changes</button>
-                <button id="cancel">Cancel</button>
+                <button type="button" id="delete">Delete</button>
+                <button type="button" id="cancel">Cancel</button>
             </div>
         </form>
         
