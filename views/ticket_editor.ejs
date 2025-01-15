@@ -37,7 +37,7 @@
                 <label for="description" class="label">Status</label>
                 <div class="dropdown">
                     <button type="button" class="dropdown-button" id="status-button" data-current-status="<%- ticket.status %>">
-                        <%- ticket.status !== "Open" || "Pending" || "Closed" ? "Select status" : ticket.status %>
+                        <%- (ticket.status === "Open" || ticket.status === "Pending" || ticket.status === "Closed") ? ticket.status : "Select a status" %>
                     </button>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item" style="color: rgb(68, 196, 68)" value="Open">Open</li>

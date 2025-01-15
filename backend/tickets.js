@@ -106,7 +106,16 @@ router.patch('/update-status/:id', isAuthenticated, async (req, res) => {
           return res.status(404).json({ error: 'Ticket not found' });
       }
 
+      console.log(req.cookies.user + " updated a ticket with id: " + id);
+      console.log(`%c » Changed status to ${status}`);
       res.status(200).json({ message: 'Ticket status updated successfully!', ticket });
+
+      console.log(
+        `%c » Changed status to %c${status}`,
+        'color: gray; font-weight: normal;',
+        'color: green; font-weight: bold;'
+      );
+      
   } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Could not update ticket status' });

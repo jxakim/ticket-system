@@ -34,20 +34,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const dropdownButton = document.getElementById("status-button");
-    const dropdownItems = document.querySelectorAll(".dropdown-menu");
+    const dropdownItems = document.querySelectorAll(".dropdown-item");
 
-    // Set initial button color based on current status
     const statusColors = {
         Open: "rgb(68, 196, 68)",
         Pending: "rgb(204, 152, 74)",
         Closed: "rgb(190, 66, 66)",
     };
+
     const currentStatus = dropdownButton.getAttribute("data-current-status");
     dropdownButton.style.color = statusColors[currentStatus] || "#333";
 
     dropdownItems.forEach(item => {
         item.addEventListener("click", async () => {
-            const newStatus = item.value;
+            const newStatus = item.textContent;
             dropdownButton.textContent = item.textContent;
             dropdownButton.style.color = item.style.color;
 
