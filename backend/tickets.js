@@ -86,6 +86,7 @@ router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
           return res.status(404).json({ error: 'Ticket not found' });
       }
 
+      console.log(req.cookies.user + " deleted a ticket with id: " + id);
       res.status(200).json({ message: 'Ticket deleted successfully!' });
   } catch (err) {
       console.error(err);

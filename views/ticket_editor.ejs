@@ -11,15 +11,18 @@
 <body>
     <%- include('partials/navbar') %>
 
+
     <div class="container">
         <p class="route"><a href="/">Home</a> / <a href="/tickets">Tickets</a> / <a href="/tickets/open-ticket/<%- ticket.id %>"><%- ticket.title %></a></p>
         <div class="content-head">
             <h1 id="tickets-title">Configuring: <%- ticket.title %></h1>
         </div>
 
+        <input id="ticketid" type="hidden" value="<%- ticket.id %>">
+
         <p>Last edited by </p>
 
-        <form method="post" action="/update-status/<%- ticket.id %>" class="form-container">
+        <form class="form-container">
             <div class="divider">
                 <label for="title" class="label">Title</label>
                 <input type="text" id="title" name="title" placeholder="Enter the ticket title" value="<%- ticket.title %>">
@@ -37,9 +40,9 @@
                         <%- ticket.status !== "Open" || "Pending" || "Closed" ? "Select status" : ticket.status %>
                     </button>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item" style="color: rgb(68, 196, 68)" data-value="Open">Open</li>
-                        <li class="dropdown-item" style="color: rgb(204, 152, 74)" data-value="Pending">Pending</li>
-                        <li class="dropdown-item" style="color: rgb(190, 66, 66)" data-value="Closed">Closed</li>
+                        <li class="dropdown-item" style="color: rgb(68, 196, 68)" value="Open">Open</li>
+                        <li class="dropdown-item" style="color: rgb(204, 152, 74)" value="Pending">Pending</li>
+                        <li class="dropdown-item" style="color: rgb(190, 66, 66)" value="Closed">Closed</li>
                     </ul>
                 </div>
             </div>
@@ -57,5 +60,7 @@
         </form>
         
     </div>
+
+    <script src="/js/ticket_editor_client.js"></script>
 </body>
 </html>
