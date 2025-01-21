@@ -1,7 +1,48 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
     const ticketid = document.getElementById('ticketid').value;
+
+    /* SAVE BUTTON */
+    const saveButton = document.getElementById('save');
+
+    saveButton.addEventListener('click', async () => {
+        const configTitle = document.getElementById('title').value;
+        const configDesc = document.getElementById('description').value;
+        const configStatus = document.getElementById("status-button").innerText;
+        const configActive = document.getElementById('active').value;
+
+
+        try {
+            const response = await fetch(`/tickets/update-config/${ticketid}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: configTitle,
+                    description: configDesc,
+                    status: configStatus,
+                    active: configActive,
+                }),
+            });
+        
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Config updated:', responseData);
+            } else {
+                const errorData = await response.json();
+                console.error('Server Error:', errorData);
+            }
+        } catch (error) {
+            console.error('Unexpected Error:', error.message);
+        }
+
+        location.reload();
+        
+    });
+    
+
+    /* DELETE BUTTON */
+
     const deleteButton = document.getElementById("delete");
 
     deleteButton.addEventListener("click", async () => {
@@ -33,6 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+
+    /* STATUS DROPDOWN */
+
     const dropdownButton = document.getElementById("status-button");
     const dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -47,33 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dropdownItems.forEach(item => {
         item.addEventListener("click", async () => {
-            const newStatus = item.textContent;
+            const status = item.textContent;
+
             dropdownButton.textContent = item.textContent;
             dropdownButton.style.color = item.style.color;
 
-            console.log(newStatus);
-
-            try {
-                const response = await fetch(`/tickets/update-status/${ticketid}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-
-                if (response.ok) {
-                    console.log(`Status updated to: ${newStatus}`);
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.error);
-                    alert('An error occurred while updating the status.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An unexpected error occurred.');
-            }
         });
     });
+
+    
 });
 

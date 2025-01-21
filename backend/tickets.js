@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
 const Ticket = require('../models/Ticket');
+const { stat } = require('@babel/core/lib/gensync-utils/fs');
 
 require('dotenv').config();
 
@@ -95,26 +96,34 @@ router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
 });
 
 // Update ticket status
-router.patch('/update-status/:id', isAuthenticated, async (req, res) => {
+router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { title, description, status, active } = req.body;
+
+  console.log(title);
+  console.log(description);
+  console.log(status);
+  console.log(active);
 
   try {
-      const ticket = await Ticket.findByIdAndUpdate(id, { status }, { new: true });
+      const ticket = await Ticket.findByIdAndUpdate(
+        id,
+        { 
+          title: title,
+          description: description,
+          status: status, 
+          active: active,
+        },
+        { new: true }
+      );
+    
 
       if (!ticket) {
           return res.status(404).json({ error: 'Ticket not found' });
       }
 
       console.log(req.cookies.user + " updated a ticket with id: " + id);
-      console.log(`%c » Changed status to ${status}`);
-      res.status(200).json({ message: 'Ticket status updated successfully!', ticket });
-
-      console.log(
-        `%c » Changed status to %c${status}`,
-        'color: gray; font-weight: normal;',
-        'color: green; font-weight: bold;'
-      );
+      res.status(200).json({ message: 'Ticket updated successfully!', ticket });
       
   } catch (err) {
       console.error(err);
