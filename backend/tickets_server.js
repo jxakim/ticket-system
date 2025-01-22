@@ -6,20 +6,27 @@ const { stat } = require('@babel/core/lib/gensync-utils/fs');
 
 require('dotenv').config();
 
+// -------------------------------------------------- //
+
+//        Functions and default configuration         //
+
+// -------------------------------------------------- //
+
 let tickets = [];
 let filter = [];
 
+/* Sorting and pushing tickets */
 function SortTickets(array, str) {
   let sortedList = [];
   array.forEach(ticket => {
     if (ticket.title.toLowerCase().includes(str.toLowerCase())) {
-      console.log(ticket.title);
       sortedList.push(ticket);
     }
   });
   return sortedList;
 }
 
+/* Resetting ticket filter to empty */
 async function resetTicketFilter() {
   tickets = await Ticket.find();
   filter = SortTickets(tickets, "");
@@ -27,6 +34,7 @@ async function resetTicketFilter() {
 
 resetTicketFilter();
 
+/* Authentication handler */
 function isAuthenticated(req, res, next) {
   if (!req.cookies.user) {
     const redirectTo = encodeURIComponent(req.originalUrl || '/');
@@ -35,8 +43,7 @@ function isAuthenticated(req, res, next) {
   next();
 }
 
-
-// Routes for tickets
+// Main route for tickets
 router.get('/', async (req, res) => {
   let isLoggedIn = req.cookies.user;
 
@@ -57,6 +64,7 @@ router.get('/', async (req, res) => {
 // ------------------------------ //
 
 // Get request to open ticket editor
+
 router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
@@ -77,6 +85,7 @@ router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
 
 
 // Delete a ticket
+
 router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
@@ -96,14 +105,10 @@ router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
 });
 
 // Update ticket status
+
 router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
   const { title, description, status, active } = req.body;
-
-  console.log(title);
-  console.log(description);
-  console.log(status);
-  console.log(active);
 
   try {
       const ticket = await Ticket.findByIdAndUpdate(
@@ -132,8 +137,6 @@ router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
 });
 
 
-
-
 // Post request to create ticket
 
 router.post('/create-ticket', isAuthenticated, async (req, res) => {
@@ -145,6 +148,7 @@ router.post('/create-ticket', isAuthenticated, async (req, res) => {
       description,
       status,
       date: new Date(),
+      active: true,
     });
 
     await newTicket.save();

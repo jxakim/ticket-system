@@ -19,7 +19,7 @@ require('dotenv').config();
 // Importing modules
 
 const users_route = require('./backend/users');
-const tickets_route = require('./backend/tickets');
+const tickets_route = require('./backend/tickets_server');
 const connectDB = require('./backend/database');
 
 

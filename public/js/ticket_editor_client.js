@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const configTitle = document.getElementById('title').value;
         const configDesc = document.getElementById('description').value;
         const configStatus = document.getElementById("status-button").innerText;
-        const configActive = document.getElementById('active').value;
-
+        const configActive = document.getElementById('active').checked;
 
         try {
             const response = await fetch(`/tickets/update-config/${ticketid}`, {
@@ -28,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 const responseData = await response.json();
                 console.log('Config updated:', responseData);
+                location.reload();
             } else {
                 const errorData = await response.json();
                 console.error('Server Error:', errorData);
@@ -91,11 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dropdownItems.forEach(item => {
         item.addEventListener("click", async () => {
-            const status = item.textContent;
-
             dropdownButton.textContent = item.textContent;
             dropdownButton.style.color = item.style.color;
-
         });
     });
 

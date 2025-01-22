@@ -14,9 +14,11 @@ let users = [];
 // ------------------------------ //
 
 async function LoginUser(res, username) {
-    const cookie_time_minutes = process.env.PORT;
+    const cookie_time_minutes = process.env.COOKIE_TIMER;
     res.cookie('loggedin', true, { maxAge: cookie_time_minutes * 60 * 1000, httpOnly: true });
     res.cookie('user', username, { maxAge: cookie_time_minutes * 60 * 1000, httpOnly: true });
+
+    console.log("Cookie created for:", username);
 
     res.redirect(`/`);
 }
@@ -56,7 +58,6 @@ router.post('/login', async (req, res) => {
       const PSWisMatch = await bcrypt.compare(password, user.hashed_password); // This checks if the password matches the hashed password (if password is set up)
       const TempPSWisMatch = (password == user.temp_password) ? true : false; // This checks if the password matches the temp password
 
-      console.log(TempPSWisMatch, PSWisMatch); 
 
       if (!PSWisMatch && !TempPSWisMatch) {
         return res.status(401).json({ error: 'Invalid password' });

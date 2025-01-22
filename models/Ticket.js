@@ -4,7 +4,8 @@ const Ticket = new mongoose.Schema({
     title: String,
     description: String,
     status: String,
-    date: Date
+    date: Date,
+    active: Boolean
 });
 
 module.exports = mongoose.model('tickets', Ticket);

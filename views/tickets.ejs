@@ -57,6 +57,14 @@
 
               <label for="status"><b>Status</b></label>
               <input type="text" placeholder="Enter a status" name="status" required>
+              <div class="dropdown">
+                    <button type="button" class="dropdown-button" id="status-button">Select a status</button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" style="color: rgb(68, 196, 68)" value="Open">Open</li>
+                        <li class="dropdown-item" style="color: rgb(204, 152, 74)" value="Pending">Pending</li>
+                        <li class="dropdown-item" style="color: rgb(190, 66, 66)" value="Closed">Closed</li>
+                    </ul>
+                </div>
           
               <button type="submit" class="btn">Create</button>
               <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
