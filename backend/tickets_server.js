@@ -118,6 +118,8 @@ router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
           description: description,
           status: status, 
           active: active,
+          lastUpdated: new Date(),
+          lastUpdatedBy: req.cookies.user
         },
         { new: true }
       );
@@ -146,9 +148,12 @@ router.post('/create-ticket', isAuthenticated, async (req, res) => {
     const newTicket = new Ticket({
       title,
       description,
-      status,
+      status: "Open",
       date: new Date(),
       active: true,
+      createdBy: req.cookies.user,
+      lastUpdated: new Date(),
+      lastUpdatedBy: req.cookies.user
     });
 
     await newTicket.save();

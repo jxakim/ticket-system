@@ -5,7 +5,10 @@ const Ticket = new mongoose.Schema({
     description: String,
     status: String,
     date: Date,
-    active: Boolean
+    active: Boolean,
+    createdBy: String,
+    lastUpdated: Date,
+    lastUpdatedBy: String
 });
 
 module.exports = mongoose.model('tickets', Ticket);

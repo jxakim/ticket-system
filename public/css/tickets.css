@@ -144,6 +144,22 @@
     font-size: 12px;
 }
 
+.inactive {
+    background-color: #ffcbcb;
+    background-image: url("../img/inactive.png");
+    background-size: 100px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position-x: 295px;
+    background-position-y: 8px;
+    transition: .1s;
+}
+
+.inactive:hover {
+    background-color: #ffd7d7;
+    filter: grayscale(10%);
+}
+
 /* ----------------------------------------------------------- */
 
 .form-popup {
@@ -164,40 +180,22 @@
     padding: 30px;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 }
 
-  
-
-.form-container input {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
+.form-container button[type=submit] {
+    height: 30px;
+    width: 150px;
+    background-color: #3ca841;
+    color: #fff;
     border: none;
-    background: #f1f1f1;
-}
-  
-
-.form-container input:focus {
-    background-color: #ddd;
-    outline: none;
-}
-  
-.form-container .btn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px 20px;
-    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
     cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-}
-
-.form-container .cancel {
-    background-color: red;
-}
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  }
   
-
-.form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-}
+  .form-container button[type=submit]:hover {
+    background-color: #2e8a34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }

@@ -20,7 +20,8 @@
 
         <input id="ticketid" type="hidden" value="<%- ticket.id %>">
 
-        <p>Last edited by <%- ticket.lastUpdated %></p>
+        <p>Created by <%- ticket.createdBy %> at <%- (ticket.date).toUTCString() %></p>
+        <p>Last updated by <%- ticket.createdBy %> at <%- (ticket.lastUpdated).toUTCString() %></p>
 
         <form class="form-container">
             <div class="divider">

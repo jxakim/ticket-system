@@ -25,45 +25,7 @@ p {
     font-weight: 300;
 }
 
-/* Form Styling */
 
-.form-container {
-    margin-top: 50px;
-}
-
-.divider {
-    margin-top: 20px;
-    margin-bottom: 40px;
-    display: flex;
-    align-items: bottom;
-}
-
-label {
-    font-size: 1em;
-    font-weight: 400;
-    flex: 0 0 200px;
-}
-
-input[type="text"], textarea {
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    background-color: #fff;
-    font-family: Inter, "Open Sans", sans-serif;
-}
-
-input[type="text"]:focus, textarea:focus {
-    outline: none;
-    background-color: #fff;
-}
-
-textarea {
-    resize: none;
-}
 
 /* Checkbox Styling */
 input[type="checkbox"] {
@@ -112,12 +74,12 @@ input[type="checkbox"]:checked::after {
     border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.form-container button[type=submit]:hover {
+  }
+  
+  .form-container button[type=submit]:hover {
     background-color: #2e8a34;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+  }
 
 .form-container #cancel {
     height: 30px;
