@@ -5,6 +5,9 @@
     <div id="navbar-left">
         <a href="/" class="active">Dashboard</a>
         <a href="/tickets">Tickets</a>
+        <% if (permissions.includes("manage")) { %>
+            <a href="/manage">Manage</a>
+        <% } %>
     </div>
 
     <div id="navbar-right">

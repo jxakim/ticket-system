@@ -16,7 +16,7 @@
     align-items: center;
 }
 
-#tickets-title {
+#title {
     font-size: 1.5em;
 }
 
@@ -199,3 +199,42 @@
     background-color: #2e8a34;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+
+
+
+/* ------------------- Manager content ----------------------- */
+
+
+.sections {
+    display: flex;
+    gap: 16px;
+}
+
+.sections > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 45%;
+}
+
+
+.sections img {
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+    opacity: 0.8;
+    border-radius: 4px;
+}
+
+.sections p {
+    margin: 0;
+    margin-right: auto;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #333;
+}

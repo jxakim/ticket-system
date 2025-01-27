@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+
+    <link rel="stylesheet" href="/css/editors.css">
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+
+    <div class="container">
+        <p class="route"><a href="/">Home</a> / <a href="/manage">Manage</a> / admin</a></p>
+        <div class="content-head">
+            <h1 id="title">Managing: <%- users.username %></h1>
+            <div class="button-group">
+                <button id="createUser" onclick="openForm()">Create a user</button>
+            </div>
+        </div>
+
+        <input id="userid" type="hidden" value="">
+
+        <form class="form-container">
+            <div class="divider">
+                <label for="title" class="label">User</label>
+                <input type="text" id="title" name="title" placeholder="Edit user name" value="<%- users.username %>">
+            </div>
+
+            <div class="divider">
+                <label for="description" class="label">Password</label>
+                <button type="button" class="" id="reset-password">Reset password</button>
+            </div>
+
+            
+            <div class="btn-group">
+                <button type="submit" id="save">Save Changes</button>
+                <button type="button" id="cancel">Cancel</button>
+            </div>
+        </form>
+        
+    </div>
+
+    <script src="/js/ticket_editor_client.js"></script>
+</body>
+</html>

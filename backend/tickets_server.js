@@ -6,6 +6,9 @@ const { stat } = require('@babel/core/lib/gensync-utils/fs');
 
 require('dotenv').config();
 
+const getPermissions = require('./functions/getPermissions');
+const isAuthenticated = require('./functions/isAuthenticated');
+
 // -------------------------------------------------- //
 
 //        Functions and default configuration         //
@@ -34,25 +37,20 @@ async function resetTicketFilter() {
 
 resetTicketFilter();
 
-/* Authentication handler */
-function isAuthenticated(req, res, next) {
-  if (!req.cookies.user) {
-    const redirectTo = encodeURIComponent(req.originalUrl || '/');
-    return res.redirect(`/login?redirect=${redirectTo}`);
-  }
-  next();
-}
+
 
 // Main route for tickets
 router.get('/', async (req, res) => {
   let isLoggedIn = req.cookies.user;
+
+  let permissions = await getPermissions(isLoggedIn ? req.cookies.user : "");
 
   if (!isLoggedIn) {
     return res.redirect(`/login`);
   }
 
   const tickets = await Ticket.find();
-  res.render('tickets', { filter: tickets, isLoggedIn: true });
+  res.render('tickets', { filter: tickets, isLoggedIn: true, permissions: permissions });
 });
 
 
@@ -70,12 +68,13 @@ router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
 
   try {
     const ticket = await Ticket.findById(id);
+    let permissions = await getPermissions(isAuthenticated ? req.cookies.user : "");
 
     if (!ticket) {
       return res.status(404).json({ error: 'Ticket not found' });
     }
 
-    res.render('ticket_editor', { ticket, isLoggedIn: true });
+    res.render('ticket_editor', { ticket, isLoggedIn: true, permissions: permissions });
 
   } catch (err) {
     console.error(err);

@@ -16,7 +16,7 @@
     align-items: center;
 }
 
-#tickets-title {
+#title {
     font-size: 1.5em;
 }
 
@@ -25,7 +25,14 @@ p {
     font-weight: 300;
 }
 
+#closemenu {
+    width: 25px;
+    transition: .05s;
+}
 
+#closemenu:hover {
+    filter: grayscale(50%);
+}
 
 /* Checkbox Styling */
 input[type="checkbox"] {

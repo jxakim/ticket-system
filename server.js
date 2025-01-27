@@ -18,6 +18,10 @@ require('dotenv').config();
 
 // Importing modules
 
+const User = require('./models/User');
+const Group = require('./models/Group');
+const getPermissions = require('./backend/functions/getPermissions');
+
 const users_route = require('./backend/users');
 const tickets_route = require('./backend/tickets_server');
 const connectDB = require('./backend/database');
@@ -44,7 +48,6 @@ connectDB().then(() => {
 // ---------------------------------------------- Functions & Configuration ---------------------------------------------- //
 
 
-
 // ---------------------------------------------- App content ---------------------------------------------- //
 
 
@@ -61,19 +64,41 @@ app.use('/users', users_route);
 app.route('/').get(async (req, res) => {
   let isLoggedIn = req.cookies.user ? true : false;
 
-  res.render('dashboard', { isLoggedIn });
+  let permissions = await getPermissions(isLoggedIn ? req.cookies.user : "");
+
+  res.render('dashboard', { isLoggedIn, permissions });
 })
+
+app.route('/manage').get(async (req, res) => {
+  let isLoggedIn = req.cookies.user ? true : false;
+
+  let permissions = await getPermissions(isLoggedIn ? req.cookies.user : "");
+
+  if (isLoggedIn) {
+    if(permissions.includes("manage")) {
+      res.render('manage', { isLoggedIn, permissions });
+    } else {
+      res.render('dashboard', { isLoggedIn, permissions });
+    }
+  } else {
+
+    res.render('login', { isLoggedIn, permissions });
+
+  }
+});
 
 app.route('/login').get(async (req, res) => {
   let isLoggedIn = req.cookies.user ? true : false;
 
+  let permissions = await getPermissions(isLoggedIn ? req.cookies.user : "");
+
   if (isLoggedIn) {
 
-    res.render('dashboard', { isLoggedIn });
+    res.render('dashboard', { isLoggedIn, permissions });
 
   } else {
 
-    res.render('login', {isLoggedIn});
+    res.render('login', { isLoggedIn, permissions });
 
   }
 });

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
 
-    <link rel="stylesheet" href="/css/ticket_editor.css">
+    <link rel="stylesheet" href="/css/editors.css">
     <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
@@ -15,7 +15,8 @@
     <div class="container">
         <p class="route"><a href="/">Home</a> / <a href="/tickets">Tickets</a> / <a href="/tickets/open-ticket/<%- ticket.id %>"><%- ticket.title %></a></p>
         <div class="content-head">
-            <h1 id="tickets-title">Configuring: <%- ticket.title %></h1>
+            <h1 id="title">Configuring: <%- ticket.title %></h1>
+            <a href="/tickets"><img src="/img/close.png" id="closemenu"></a>
         </div>
 
         <input id="ticketid" type="hidden" value="<%- ticket.id %>">
@@ -26,7 +27,7 @@
         <form class="form-container">
             <div class="divider">
                 <label for="title" class="label">Title</label>
-                <input type="text" id="title" name="title" placeholder="Enter the ticket title" value="<%- ticket.title %>">
+                <input type="text" id="tickettitle" name="title" placeholder="Enter the ticket title" value="<%- ticket.title %>">
             </div>
 
             <div class="divider">

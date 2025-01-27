@@ -36,7 +36,7 @@ function createTicketElement(ticket) {
 
 function displayTickets(tickets) {
   const ticketList = document.getElementById('ticket-list');
-  const ticketCount = document.getElementById('tickets-title');
+  const ticketCount = document.getElementById('title');
 
   ticketList.innerHTML = '';
   ticketCount.innerHTML = `Tickets (${tickets.length})`;
