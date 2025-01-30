@@ -16,6 +16,7 @@
 }
 
 #navbar-right {
+  display: flex;
   margin-left: auto;
 }
 

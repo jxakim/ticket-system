@@ -7,6 +7,7 @@ const { stat } = require('@babel/core/lib/gensync-utils/fs');
 require('dotenv').config();
 
 const getPermissions = require('./functions/getPermissions');
+const hasPermission = require('./functions/hasPermission');
 const isAuthenticated = require('./functions/isAuthenticated');
 
 // -------------------------------------------------- //
@@ -49,6 +50,11 @@ router.get('/', async (req, res) => {
     return res.redirect(`/login`);
   }
 
+  if(!await hasPermission(req.cookies.user, "view")) {
+    console.log("No permission!");
+    return res.redirect('/');
+  }
+
   const tickets = await Ticket.find();
   res.render('tickets', { filter: tickets, isLoggedIn: true, permissions: permissions });
 });
@@ -67,15 +73,19 @@ router.get('/open-ticket/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
   try {
-    const ticket = await Ticket.findById(id);
-    let permissions = await getPermissions(isAuthenticated ? req.cookies.user : "");
-
-    if (!ticket) {
-      return res.status(404).json({ error: 'Ticket not found' });
-    }
-
-    res.render('ticket_editor', { ticket, isLoggedIn: true, permissions: permissions });
-
+      if(!await hasPermission(req.cookies.user, "view")) {
+        console.log("No permission!");
+        res.redirect('/tickets');
+      } else {
+        const ticket = await Ticket.findById(id);
+        let permissions = await getPermissions(isAuthenticated ? req.cookies.user : "");
+    
+        if (!ticket) {
+          return res.status(404).json({ error: 'Ticket not found' });
+        }
+    
+        res.render('ticket_editor', { ticket, isLoggedIn: isAuthenticated, permissions: permissions });
+      }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Could not fetch ticket' });
@@ -89,6 +99,10 @@ router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
   try {
+    if(!await hasPermission(req.cookies.user, "configure")) {
+      console.log("No permission!");
+      res.redirect('/tickets');
+    } else {
       const result = await Ticket.findByIdAndDelete(id);
 
       if (!result) {
@@ -97,6 +111,7 @@ router.delete('/delete-ticket/:id', isAuthenticated, async (req, res) => {
 
       console.log(req.cookies.user + " deleted a ticket with id: " + id);
       res.status(200).json({ message: 'Ticket deleted successfully!' });
+    }
   } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Could not delete the ticket' });
@@ -110,6 +125,10 @@ router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
   const { title, description, status, active } = req.body;
 
   try {
+    if(!await hasPermission(req.cookies.user, "configure")) {
+      console.log("No permission!");
+    } else {
+
       const ticket = await Ticket.findByIdAndUpdate(
         id,
         { 
@@ -130,6 +149,7 @@ router.patch('/update-config/:id', isAuthenticated, async (req, res) => {
 
       console.log(req.cookies.user + " updated a ticket with id: " + id);
       res.status(200).json({ message: 'Ticket updated successfully!', ticket });
+    }
       
   } catch (err) {
       console.error(err);
@@ -144,19 +164,24 @@ router.post('/create-ticket', isAuthenticated, async (req, res) => {
   const { title, description, status } = req.body;
 
   try {
-    const newTicket = new Ticket({
-      title,
-      description,
-      status: "Open",
-      date: new Date(),
-      active: true,
-      createdBy: req.cookies.user,
-      lastUpdated: new Date(),
-      lastUpdatedBy: req.cookies.user
-    });
+    if(!await hasPermission(req.cookies.user, "configure")) {
+      console.log("No permission!");
+      res.redirect('/tickets');
+    } else {
+      const newTicket = new Ticket({
+        title,
+        description,
+        status: "Open",
+        date: new Date(),
+        active: true,
+        createdBy: req.cookies.user,
+        lastUpdated: new Date(),
+        lastUpdatedBy: req.cookies.user
+      });
 
-    await newTicket.save();
-    res.redirect('/tickets');
+      await newTicket.save();
+      res.redirect('/tickets');
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Could not add the ticket' });
@@ -186,9 +211,14 @@ router.get('/search', isAuthenticated,  async (req, res) => {
 router.get('/get-tickets', isAuthenticated, async (req, res) => {
 
     try {
-      const allTickets = await Ticket.find();
-  
-      res.json({ results: allTickets });
+      if(!await hasPermission(req.cookies.user, "view")) {
+        console.log("No permission!");
+        res.redirect('/');
+      } else {
+        const allTickets = await Ticket.find();
+    
+        res.json({ results: allTickets });
+      }
   
     } catch (err) {
       console.error(err);

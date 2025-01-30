@@ -4,7 +4,9 @@
     <a href="/" id="logo">Ticket-System</a>
     <div id="navbar-left">
         <a href="/" class="active">Dashboard</a>
-        <a href="/tickets">Tickets</a>
+        <% if (permissions.includes("view")) { %>
+            <a href="/tickets">Tickets</a>
+        <% } %>
         <% if (permissions.includes("manage")) { %>
             <a href="/manage">Manage</a>
         <% } %>
@@ -12,6 +14,7 @@
 
     <div id="navbar-right">
         <% if (isLoggedIn) { %>
+            <a href="/account">Account</a>
             <form method="post" action="/users/logout"><button type="submit">Logout</button></form>
         <% } else { %>
             <a href="/login">Login</a>

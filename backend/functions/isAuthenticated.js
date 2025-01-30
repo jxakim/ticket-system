@@ -1,10 +1,10 @@
 /* Authentication handler */
-function isAuthenticated(req, res, next) {
+function isAuthenticated(req, res, permission, next) {
     if (!req.cookies.user) {
-      const redirectTo = encodeURIComponent(req.originalUrl || '/');
-      return res.redirect(`/login?redirect=${redirectTo}`);
+        const redirectTo = encodeURIComponent(req.originalUrl || '/');
+        return res.redirect(`/login?redirect=${redirectTo}`);
+        next();
     }
-    next();
 }
 
 // Export the function

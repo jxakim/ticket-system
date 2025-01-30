@@ -73,6 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    /* CANCEL BUTTON */
+
+    const cancelButton = document.getElementById("cancel");
+
+    cancelButton.addEventListener("click", async () => {
+        window.location.href = '/tickets';
+    });
+
 
 
     /* STATUS DROPDOWN */
