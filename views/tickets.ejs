@@ -47,7 +47,11 @@
 
         <div class="form-popup" id="sidebar">
             <form method="post" action="/tickets/create-ticket" class="form-container">
-              <h1>Create a Ticket</h1>
+                <div class="form-head">
+                    <h1>Create a Ticket</h1>
+              <a href="/tickets"><img src="/img/close.png" id="closemenu"></a>
+                </div>
+
           
               <label for="title"><b>Title</b></label>
               <input type="text" placeholder="Enter a ticket title" name="title" required>

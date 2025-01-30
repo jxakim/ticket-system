@@ -160,6 +160,15 @@
     filter: grayscale(10%);
 }
 
+#closemenu {
+    width: 25px;
+    transition: .05s;
+}
+
+#closemenu:hover {
+    filter: grayscale(50%);
+}
+
 /* ----------------------------------------------------------- */
 
 .form-popup {
@@ -214,7 +223,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
@@ -222,6 +230,13 @@
     width: 45%;
 }
 
+.usermanagement {
+    background-color: #fffdde;
+}
+
+.groupconfig {
+    background-color: #e6f7eb;
+}
 
 .sections img {
     width: 60px;
