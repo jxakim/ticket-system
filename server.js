@@ -24,6 +24,8 @@ const getPermissions = require('./backend/functions/getPermissions');
 
 const users_route = require('./backend/users');
 const tickets_route = require('./backend/tickets_server');
+const account_route = require('./backend/account_server');
+
 const connectDB = require('./backend/database');
 
 
@@ -60,6 +62,7 @@ connectDB().then(() => {
 // Using own file for routing
 app.use('/tickets', tickets_route);
 app.use('/users', users_route);
+app.use('/account', account_route);
 
 app.route('/').get(async (req, res) => {
   let isLoggedIn = req.cookies.user ? true : false;

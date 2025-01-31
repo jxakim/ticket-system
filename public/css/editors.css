@@ -127,3 +127,60 @@ input[type="checkbox"]:checked::after {
     margin-top: 50px;
     gap: 20px;
 }
+
+
+
+/* Account */
+
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.text-container {
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+.pfpcontainer {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.pfpcontainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pfpcontainer::after {
+    content: "Change";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.pfpcontainer:hover::after {
+    opacity: 1;
+}

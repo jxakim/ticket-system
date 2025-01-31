@@ -63,6 +63,13 @@ input[type="text"]:focus, textarea:focus {
   background-color: #fff;
 }
 
+#username {
+  background-color: #ececec;
+  color: #adadad;
+  cursor: not-allowed;
+}
+
+
 textarea {
   resize: none;
 }

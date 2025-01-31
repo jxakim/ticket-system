@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+
+    <link rel="stylesheet" href="/css/editors.css">
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+        <p class="route"><a href="/">Home</a> / <a href="/tickets">Account</a></p>
+        <div class="content-head">
+            <h1 id="title">My Account</h1>
+        </div>
+
+        <div class="input-container">
+            <div class="pfpcontainer" onclick="document.getElementById('fileInput').click();">
+                <img src="/img/gengar.png" id="profilePic">
+            </div>
+
+            <div class="text-container">
+                <h3><% user %></h3>
+                <p>Group: <% user %></p>
+            </div>
+
+            <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewImage(event)">
+        </div>
+
+        <form class="form-container">
+            <div class="divider">
+                <label for="username" class="label">Username</label>
+                <input type="text" class="inputdisabled" id="username" name="username" placeholder="Enter your username">
+            </div>
+
+            <div class="divider">
+                <label for="name" class="label">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+            </div>
+
+            
+            <div class="btn-group">
+                <button type="submit" id="save">Save Changes</button>
+                <form method="post" action="/users/logout"><button type="submit" id="delete">Logout</button></form>
+
+            </div>
+        </form>
+        
+    </div>
+
+    <script src="/js/account_client.js"></script>
+</body>
+</html>
